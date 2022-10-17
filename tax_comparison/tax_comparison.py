@@ -1,5 +1,4 @@
 import os
-from unicodedata import name
 # from click import option
 # from requests import options
 from selenium import webdriver
@@ -23,6 +22,8 @@ import urllib.request
 
 
 import pandas as pd
+
+
 
 
 individual_currency = {}
@@ -64,7 +65,7 @@ if __name__ == '__main__':
     a) Add the tax bracket for each country
     b) Use the dictionary to convert each bracket into pounds
     c) Create a program to calculate the amount you would be taxed per year
-    d)  
+    d) 
     
     
     '''
@@ -79,29 +80,36 @@ if __name__ == '__main__':
         elements = cont.find_elements_by_tag_name('tr')[i]
 
         new_data = elements.text
-        print(new_data)
         data.append(new_data)
     data.pop(0)
-    new_lst = list
-    # for i in data:
-    #     new_str = str.split(i)
-    #     data.append(new_str)
-    # print(data)
-    # for val in new_str:
-    #     if len(val) == 5:
-    #         currency = val.join((val[0],val[1],val[2]))
-    #         new_lst.append(new_str)
-    #     else:
-    #         currency = val.join((val[0],val[1]))
-    #         new_lst.append(new_str)        
-    # print(new_lst)   
-        # x = new_str[0]
-        # y = float(new_str[2])
-        # individual_currency
-    # print(table)
-    # new_data = bot.driver.find_element(by=By.TAG_NAME, value='tr')
-    # data.append(new_data)
-    # print(data)
+    new_lst = []
+    finished_lst = []
+    for currencies in data:
+        # The currencies are the individual currencies within the 'data' list
+        x = currencies.split() # This splits all the currencies and assigns it to the variable x
+        new_lst.append(x) # new_lst now contains each individual currency split into strings for each eg. ['Icelandic', 'Krona', '162.824469', '0.006142']    
+    for lsts in new_lst:
+        if len(lsts) == 5:
+            currency_string = [''.join(lsts[0]+' '+lsts[1]+' '+lsts[2]), float(lsts[3]), float(lsts[4])]
+            finished_lst.append(currency_string)
+            pass
+        if len(lsts) == 4:
+            currency_string1 = [''.join(lsts[0]+' '+lsts[1]), float(lsts[2]), float(lsts[3])]
+            finished_lst.append(currency_string1)
+            pass
+        if len(lsts) == 3:
+            currency_string2 = [lsts[0], lsts[1], float(lsts[2])]
+            finished_lst.append(lsts)
+            pass
+        
+        else:
+            print("errrerrrrre")
+    for fin_currency in finished_lst:
+        dict_currency = [fin_currency[0], fin_currency[-1]]
+        individual_currency.update([dict_currency])
+        pass
+    print(individual_currency)
+
     bot.driver.quit()
     # wage = input("Your annual wage:  ")
 
